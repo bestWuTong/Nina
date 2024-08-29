@@ -36,7 +36,7 @@
         const imageElement = document.getElementById('image');
         const audioElement = document.getElementById('audio1');
         const startButton = document.getElementById('startButton');
-        let shakeThreshold = 15;  // 定义摇动检测的阈值
+        let shakeThreshold = 12;  // 定义摇动检测的阈值
         let lastX = 0, lastY = 0, lastZ = 0;
         let shakeTimeout;
         let shakeEnabled = false;  // 初始化为未启用状态
@@ -66,7 +66,7 @@
                     if (!shakeTimeout) {
                         shakeTimeout = setTimeout(function() {
                             shakeTimeout = null;
-                        }, 2000);  // 设定摇动后2秒的间隔
+                        }, 1000);  // 设定摇动后1秒的间隔
                         
                         // 切换图片并播放音频
                         toggleImageAndPlayAudio();
