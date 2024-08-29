@@ -10,7 +10,7 @@
         }
         #image {
             margin: auto;
-            max-height: 90vh;
+            max-height: 80vh;
             display: none;  /* 初始隐藏图片，等待加载完成 */
         }
         #startButton {
@@ -109,7 +109,7 @@
                     if (!shakeTimeout) {
                         shakeTimeout = setTimeout(function() {
                             shakeTimeout = null;
-                        }, 1000);  // 设定摇动后1秒的间隔
+                        }, 200);  // 设定摇动后0.2秒的间隔
                         
                         // 切换图片并播放音频
                         toggleImageAndPlayAudio();
