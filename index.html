@@ -8,23 +8,43 @@
         body {
             text-align: center;
         }
-        img {
+        #image {
             margin: auto;
-            max-height: 80vh;
-            display: none;  /* 初始隐藏图片，等待用户交互 */
+            max-height: 90vh;
+            display: none;  /* 初始隐藏图片，等待加载完成 */
         }
-        button {
-            margin-top: 100px;
+        #startButton {
+            margin: auto;
+            margin-top: 10vh;
             padding: 10px 20px;
             font-size: 16px;
+            display: none;  /* 初始隐藏按钮，等待加载完成 */
+        }
+        #loader {
+            display: block;
+            margin: 10vh auto;
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid #3498db;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
+    <!-- 加载动画 -->
+    <div id="loader"></div>
+
     <p>点击开始，并摇一摇手机~</p>
+
     <!-- 显示的图片 -->
     <img id="image" src="image1.jpg" alt="图片1">
-    
+
     <!-- 音频元素 -->
     <audio id="audio1" src="audio1.mp3"></audio>
 
@@ -36,13 +56,36 @@
         const imageElement = document.getElementById('image');
         const audioElement = document.getElementById('audio1');
         const startButton = document.getElementById('startButton');
-        let shakeThreshold = 12;  // 定义摇动检测的阈值
+        const loader = document.getElementById('loader');
+        let shakeThreshold = 15;  // 定义摇动检测的阈值
         let lastX = 0, lastY = 0, lastZ = 0;
         let shakeTimeout;
         let shakeEnabled = false;  // 初始化为未启用状态
 
+        // 页面加载时预加载资源
+        window.addEventListener('load', function() {
+            // 创建一个Image对象来预加载图片
+            const img1 = new Image();
+            const img2 = new Image();
+            img1.src = 'image1.jpg';
+            img2.src = 'image2.jpg';
+
+            // 监听图片加载完成事件
+            img1.onload = img2.onload = function() {
+                // 所有资源加载完成，隐藏加载动画，显示开始按钮
+                loader.style.display = 'none';
+                startButton.style.display = 'block';
+            };
+
+            // 预加载音频
+            audioElement.load();
+        });
+
         // 启动按钮点击事件
         startButton.addEventListener('click', function() {
+            // 初始化图片到image1
+            imageElement.src = 'image1.jpg';
+            currentImage = 1;
             // 显示图片
             imageElement.style.display = 'block';
             // 隐藏按钮
@@ -66,7 +109,7 @@
                     if (!shakeTimeout) {
                         shakeTimeout = setTimeout(function() {
                             shakeTimeout = null;
-                        }, 200);  // 设定摇动后0.2秒的间隔
+                        }, 1000);  // 设定摇动后1秒的间隔
                         
                         // 切换图片并播放音频
                         toggleImageAndPlayAudio();
