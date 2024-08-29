@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摇一摇切换图片</title>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 50px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <img id="image" src="img/image1.jpg" alt="图片1">
+    
+    <script>
+        let currentImage = 1;
+        const imageElement = document.getElementById('image');
+        let shakeThreshold = 15;  // 定义摇动检测的阈值
+        let lastX = 0, lastY = 0, lastZ = 0;
+        let shakeTimeout;
+
+        // 检测设备运动
+        if (window.DeviceMotionEvent) {
+            window.addEventListener('devicemotion', function(event) {
+                const { x, y, z } = event.accelerationIncludingGravity;
+
+                // 计算加速度的变化
+                const change = Math.abs(x - lastX + y - lastY + z - lastZ);
+
+                // 如果变化超过了阈值，认为是一次摇动
+                if (change > shakeThreshold) {
+                    if (!shakeTimeout) {
+                        shakeTimeout = setTimeout(function() {
+                            shakeTimeout = null;
+                        }, 1000);  // 设定摇动后1秒的间隔
+                        
+                        // 切换图片
+                        toggleImage();
+                    }
+                }
+
+                // 记录上一次的加速度
+                lastX = x;
+                lastY = y;
+                lastZ = z;
+            });
+        } else {
+            alert("您的设备不支持摇一摇功能。");
+        }
+
+        function toggleImage() {
+            if (currentImage === 1) {
+                imageElement.src = 'img/image2.jpg';
+                currentImage = 2;
+            } else {
+                imageElement.src = 'img/image1.jpg';
+                currentImage = 1;
+            }
+        }
+    </script>
+</body>
+</html>
