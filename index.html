@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摇一摇切换图片并播放音频</title>
+    <title>阿里嘎多！</title>
     <style>
         body {
             text-align: center;
-            margin-top: 50px;
         }
         img {
-            max-width: 100%;
-            height: auto;
+            margin: auto;
+            max-height: 80vh;
             display: none;  /* 初始隐藏图片，等待用户交互 */
         }
         button {
+            margin-top: 100px;
             padding: 10px 20px;
             font-size: 16px;
         }
     </style>
 </head>
 <body>
+    <p>点击开始，并摇一摇手机~</p>
     <!-- 显示的图片 -->
     <img id="image" src="image1.jpg" alt="图片1">
     
@@ -65,7 +66,7 @@
                     if (!shakeTimeout) {
                         shakeTimeout = setTimeout(function() {
                             shakeTimeout = null;
-                        }, 1000);  // 设定摇动后1秒的间隔
+                        }, 2000);  // 设定摇动后2秒的间隔
                         
                         // 切换图片并播放音频
                         toggleImageAndPlayAudio();
